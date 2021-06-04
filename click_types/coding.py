@@ -1,4 +1,4 @@
-"""Module for custom click types regarding to development"""
+"""Module for custom click types regarding to development."""
 
 import semver
 

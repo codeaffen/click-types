@@ -1,1 +1,1 @@
-"""Python package that provides custom click types"""
+"""Python package that provides custom click types."""

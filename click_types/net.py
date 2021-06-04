@@ -1,4 +1,4 @@
-"""Module for custom click types regarding to network"""
+"""Module for custom click types regarding to network."""
 
 import click
 import ipaddress

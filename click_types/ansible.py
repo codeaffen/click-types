@@ -1,4 +1,4 @@
-"""Module for custom click types regarding to ansible"""
+"""Module for custom click types regarding to ansible."""
 
 import click
 import os
@@ -64,7 +64,7 @@ class AnsibleVaultParamType(click.ParamType):
                 data = self.v.load(open(self.vault).read())
         except AnsibleError as e:
             if 'not vault encrypted data' in str(e):
-                data = yaml.load(open(self.vault).read(), SafeLoader) or {}
+                data = yaml.safe_load(open(self.vault).read(), SafeLoader) or {}
         except Exception as e:
             self.fail('Decryption failed: {0}'.format(str(e)), param, ctx)
 
@@ -74,18 +74,18 @@ class AnsibleVaultParamType(click.ParamType):
 
         try:
             self.v.dump(data, open(self.vault, 'w'))
-        except:  # noqa: E722
+        except Exception:
             self.fail('Error while encrypting data', param, ctx)
 
         return self.path
 
-    def _populate_data(self, input={}, keys=[], value=None):
+    def _populate_data(self, origin: dict = None, keys: list = None, value: str = None):
         """Save value at the desired position in vault.
 
         This method takes vault data, a list of keys where to store the value.
 
-        :param input: The dictionary of vault data, defaults to {}
-        :type input: dict, optional
+        :param origin: The dictionary of vault data, defaults to {}
+        :type origin: dict, optional
         :param keys: List of keys that describe the desired position in vault, defaults to []
         :type keys: list, optional
         :param value: The value to store in vault, defaults to None
@@ -93,7 +93,7 @@ class AnsibleVaultParamType(click.ParamType):
         :return: The vault data extended by `value` at the desired position.
         :rtype: dict
         """
-        data = input.copy()
+        data = origin.copy()
 
         if keys:
             key = keys[0]
