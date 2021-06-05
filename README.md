@@ -1,4 +1,4 @@
-# click-types: Python API client library for phpIPAM installation
+# click-types: Python library that provides useful click types
 
 [![PyPI version](https://badge.fury.io/py/click-types.svg)](https://badge.fury.io/py/click-types)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/ed3511c33a254bfe942777c9ef3251e3)](https://www.codacy.com/gh/codeaffen/click-types/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=codeaffen/click-types&amp;utm_campaign=Badge_Grade)
