@@ -28,7 +28,7 @@ class SemVerParamType(ParamType):
         :rtype: str
         """
         try:
-            semver.parse(value)
+            semver.VersionInfo.parse(value)
             return value
         except ValueError as e:
             self.fail('Not a valid version, {0}'.format(str(e)), param, ctx)
