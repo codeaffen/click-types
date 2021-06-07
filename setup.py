@@ -24,8 +24,9 @@ setup(
     python_requires='>=3.6',
     install_requires=[
         'ansible',
-        'ipaddress',
+        'ansible-vault',
         'click',
+        'ipaddress',
         'semver'
     ],
 )

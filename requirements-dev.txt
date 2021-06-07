@@ -1,8 +1,9 @@
 ansible
+ansible-vault
+click
 coverage
 ipaddress
 flake8
 pytest
-pytest-click
 semver
 wheel
