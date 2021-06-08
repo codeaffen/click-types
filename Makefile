@@ -63,7 +63,7 @@ test-all:
 	coverage run -m pytest tests/test_cases/* -v
 
 test-%:
-	coverage run -m pytest tests/test_cases/$*.py -v
+	coverage run -m pytest tests/test_cases/$*_*.py -v
 
 coverage: test-all
 	coverage report -m --include 'click_types/*','click_types/**/*','tests/**/*'
