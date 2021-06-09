@@ -1,7 +1,10 @@
 """Provide some base configurations for tests."""
+import os
 import pytest
 import py.path  # pyright: reportMissingModuleSource=false
 
+from ansible.errors import AnsibleError
+from ansible_vault import Vault
 
 TEST_CASES_PATH = py.path.local(__file__).realpath() / '..' / 'test_cases'
 
@@ -56,3 +59,28 @@ def vcrmode(request):
 def cassette_name(test_name=None):
     """Generate cassette_name."""
     return 'tests/fixtures/{0}.yml'.format(test_name)
+
+
+def open_vault(vault: str = None, secret: str = None):
+    s = os.getenv(secret)
+    v = Vault(s)
+
+    try:
+        return dict(v.load(open(vault).read()))
+    except (AnsibleError, Exception) as e:
+        raise Exception(f"failed to open vault '{vault}': {str(e)}")
+
+
+def get_value_from_key(data: dict = None, keys: list = None):
+
+    if keys:
+
+        key = keys[0]
+
+        if isinstance(key, str) and len(keys) > 1:
+            if key in data:
+                return get_value_from_key(data[key], keys[1:])
+            else:
+                raise Exception(f"key '{key}' not in dictionary")
+        elif isinstance(key, str):
+            return data[key]
