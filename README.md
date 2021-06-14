@@ -40,7 +40,7 @@ $ python setup.py install
 
 Name | Module | Description
 ---- | ------ | -----------
-AnsibleVaultParamType | click_type.ansible | Manages secret values in ansible vaults. This type open the configured vault put the value to the given path and close vault.
+AnsibleVaultParamType | click_types.ansible | Manages secret values in ansible vaults. This type open the configured vault put the value to the given path and close vault.
 SemVerParamType | click_types.coding | Provides validity checks for semantic versions.
 CIDRParamType | click_types.net | Checking a given IP network/prefix if it's a valid CIDR. Both ip version (v4 and v6) are supported.
 VlanParamType | click_types.net | Validates vlan ids according to IEEE 802.1Q standard.
