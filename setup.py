@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="click-types",
-    version="1.0.0",
+    version="1.0.1",
     author="Christian Meißner",
     author_email="Christian Meißner <cme@codeaffen.org>",
     description="Python library that provides useful click types",
