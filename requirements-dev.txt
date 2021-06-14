@@ -1,9 +1,12 @@
 ansible
 ansible-vault
+bumpversion
+changelog-cli
 click
 coverage
 ipaddress
 flake8
 pytest
 semver
+twine
 wheel
