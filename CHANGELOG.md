@@ -6,9 +6,11 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 ## Unreleased
 
 ### New
+* added tests for existing types
 
 ### Changes
 
 ### Fixes
+* fix missing dependecies
 
 ### Breaks
