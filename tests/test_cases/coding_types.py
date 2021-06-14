@@ -1,4 +1,5 @@
 import click
+import pytest
 
 from click.testing import CliRunner
 from click_types.coding import SemVerParamType
@@ -13,27 +14,15 @@ def semver_wrapper(version):
     pass
 
 
-def test_success():
+@pytest.mark.parametrize('param', ['1.2.3', '1.2.3-alpha', '1.2.3-beta+build1337'])
+def test_success(param):
 
-    positive_semvers = [
-        '1.2.3',
-        '1.2.3-alpha',
-        '1.2.3-beta+build1337'
-    ]
-    for s in positive_semvers:
-        print(s)
-        response = runner.invoke(semver_wrapper, ['--version', s])
-        assert response.exit_code == 0
+    response = runner.invoke(semver_wrapper, ['--version', param])
+    assert response.exit_code == 0
 
 
-def test_failure():
+@pytest.mark.parametrize('param', ['1.2', '1.2.3+build1337', '1.2.3-alpha-build4711'])
+def test_failure(param):
 
-    negative_semvers = [
-        '1.2',
-        '1.2.3+build1337',
-        '1.2.3-alpha-build4711'
-    ]
-
-    for s in negative_semvers:
-        response = runner.invoke(semver, ['--version', s])
-        assert response.exit_code == 1
+    response = runner.invoke(semver, ['--version', param])
+    assert response.exit_code != 0
