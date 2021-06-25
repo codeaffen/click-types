@@ -3,6 +3,7 @@ import os
 import random
 import string
 import tempfile
+import yaml
 
 from tests.conftest import open_vault, get_value_from_key
 from click.testing import CliRunner
@@ -47,3 +48,19 @@ def test_missing_env_var():
     response = runner.invoke(vault_wrapper, input='dummy')
 
     assert response.exit_code != 0
+
+
+def test_key_is_not_dict():
+    yaml.dump({'key': 'value'}, open(vault_file, 'w'))
+    response = runner.invoke(vault_wrapper, input='dummy')
+
+    assert response.exit_code != 0
+    assert response.exception
+
+
+def test_decryption_failed():
+    os.environ[sec_env] = 'wrong passphrase'
+    response = runner.invoke(vault_wrapper, input='dummy')
+
+    assert response.exit_code != 0
+    assert response.exception

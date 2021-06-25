@@ -5,8 +5,8 @@ import os
 import yaml
 
 from ansible.errors import AnsibleError
+from ansible.parsing.vault import AnsibleVaultError
 from ansible_vault import Vault
-from yaml import SafeLoader
 
 
 class AnsibleVaultParamType(click.ParamType):
@@ -62,15 +62,14 @@ class AnsibleVaultParamType(click.ParamType):
         try:
             if os.path.exists(self.vault):
                 data = self.v.load(open(self.vault).read())
+        except AnsibleVaultError as e:
+            exit(str(e))
         except AnsibleError as e:
             if 'not vault encrypted data' in str(e):
-                data = yaml.safe_load(open(self.vault).read(), SafeLoader) or {}
-        except Exception as e:
-            self.fail('Decryption failed: {0}'.format(str(e)), param, ctx)
+                data = yaml.safe_load(open(self.vault).read()) or {}
 
         data = self._populate_data(data, self.path.split('.'), value)
-        with open(self.vault, "w") as f:
-            yaml.dump(data, f)
+        yaml.dump(data, open(self.vault, 'w'))
 
         try:
             self.v.dump(data, open(self.vault, 'w'))
@@ -100,7 +99,10 @@ class AnsibleVaultParamType(click.ParamType):
 
             if isinstance(key, str) and len(keys) > 1:
                 if key in data:
-                    data[key].update(self._populate_data({}, keys[1:], value))
+                    if not isinstance(data[key], dict):
+                        raise ValueError("key '{0}' already exists but not as dict".format(key))
+                    else:
+                        data[key].update(self._populate_data({}, keys[1:], value))
                 else:
                     data[key] = {}
                     data[key].update(self._populate_data({}, keys[1:], value))
